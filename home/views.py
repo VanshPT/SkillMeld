@@ -1,9 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.models import User
-
 
 def index(request):
     return render(request, 'index.html')
@@ -12,33 +11,46 @@ def index(request):
 def fillForm(request):
     if request.method == 'POST':
         # Handle the form submission
-        entered_skills = []
-        skill_counter = 1  # Start from 1 to match the initial ID
-        
-        while True:
-            skill_name = request.POST.get(f'skill_name_{skill_counter}')
-            proficiency_level = request.POST.get(f'proficiency_level_{skill_counter}')
-            
-            # If any input is not found, break the loop
-            if not skill_name or not proficiency_level:
-                break
-            
-            # Append the skill to the list
-            entered_skills.append({'name': skill_name, 'level': proficiency_level})
-            
-            # Print the received data
-            print("Skill Name:", skill_name)
-            print("Proficiency Level:", proficiency_level)
-            
-            skill_counter += 1  # Increment the counter
-        
-        # Example: Store the data in the session for now
-        request.session['entered_skills'] = entered_skills
-        
-        messages.success(request, 'Skills added successfully!')
-        return render(request, 'index.html')  # Render the same page
+        user_skills = []
+
+        # Define the skill keys
+        skill_keys = [
+            "Android", "Angular", "AWS", "Azure", "Blockchain", "Bootstrap", "C#", "C++", "Confluence", "CSS",
+            "CSS3", "Data Science", "DigitalOcean", "Django", "Docker", "Ethereum", "Git", "Google Cloud Platform",
+            "GraphQL", "Heroku", "HTML", "HTML5", "iOS", "Java", "JavaScript", "Jira", "Kubernetes", "LESS",
+            "Machine Learning", "MERN Stack", "MongoDB", "Node.js", "PHP", "Python", "PyTorch", "React", "RESTful API",
+            "Ruby", "R", "Sass", "Solidity", "Spring Framework", "SQL", "Swift", "TensorFlow", "TypeScript", "Unity",
+            "Vue.js"
+        ]
+
+        # Iterate over skill keys to extract skill names and proficiency levels
+        for skill_name in skill_keys:
+            proficiency_level = request.POST.get(f"{skill_name}", '0')
+            # Convert proficiency level to dataset format (1 for beginner, 2 for intermediate, 3 for advanced)
+            proficiency_level_value = '0' if proficiency_level == '0' else '-' + proficiency_level
+            user_skills.append(proficiency_level_value)
+
+        # Append job role (Assuming job role is always sent in the form data)
+        job_role = request.POST.get('job_role', '')
+        user_skills.append(job_role)
+
+        # Print the user skills list
+        print("User Skills:", user_skills)
+        print("Number of skills:", len(user_skills))
+
+        # You can now use this list for further processing, such as applying k-means clustering
+        messages.success(request, "Submitted Successfully")
+        return render(request, 'mainform.html')
     else:
-        return render(request, 'mainform.html')  # Render the form page
+        skills = [  # List of available skills
+            "Python", "Java", "JavaScript", "HTML", "CSS", "SQL", "React", "Angular", "Node.js", "MongoDB", "Git",
+            "C#", "C++", "PHP", "AWS", "Docker", "Kubernetes", "Spring Framework", "TensorFlow", "PyTorch",
+            "Machine Learning", "Data Science", "R", "Ruby", "Swift", "Android", "iOS", "Unity", "Blockchain",
+            "Ethereum", "Solidity", "Vue.js", "TypeScript", "HTML5", "CSS3", "Bootstrap", "Sass", "LESS",
+            "RESTful API", "GraphQL", "Jira", "Confluence", "Azure", "Google Cloud Platform", "Heroku",
+            "DigitalOcean", "Django", "MERN Stack"
+        ]
+        return render(request, 'mainform.html', {'skills': skills})  # Pass skills to the template
 
 def signup(request):
     if request.method == "POST":
@@ -67,7 +79,7 @@ def signup(request):
             myuser.first_name=firstname
             myuser.last_name=lastname
             myuser.save()
-            messages.success(request,'Your Account has been successfully created')
+            messages.success(request,'Your Blogme Account has been successfully created')
             return redirect('/')
     else:
         return render(request, 'index.html')  # Render the same page

@@ -1,3 +1,4 @@
+<!-- mainform.html -->
 {% extends 'base.html' %}
 
 {% block title %}Home | SkillMeld{% endblock %}
@@ -28,20 +29,22 @@
         <form id="skills-form" method="post" action="/fillForm/">
             {% csrf_token %}
             <div id="skills-container">
-                <div class="skill-input-container">
-                    <label for="skill_name_1">Skill Name:</label>
-                    <input type="text" name="skill_name_1" class="skill-name" id="skill_name_1" required>
-                    <label for="proficiency_level_1">Proficiency Level:</label>
-                    <select name="proficiency_level_1" class="proficiency-level" id="proficiency_level_1" required>
-                        <option value="beginner">Beginner</option>
-                        <option value="intermediate">Intermediate</option>
-                        <option value="advanced">Advanced</option>
-                    </select>
-                    <button type="button" class="btn btn-danger remove-skill">-</button>
-                </div>
+                <!-- Dynamic skill input containers will be added here -->
             </div>
+
+            <div class="form-group">
+                <label for="job_role">Job Role:</label>
+                <select name="job_role" id="job_role" class="form-control" required>
+                    <option value="">Select Job Role</option>
+                    <option value="Web Developer">Web Developer</option>
+                    <option value="Software Engineer">Software Engineer</option>
+                    <option value="Full Stack Developer">Full Stack Developer</option>
+                    <!-- Add more job roles here -->
+                </select>
+            </div>
+            
             <button type="button" class="btn btn-success" id="add-skill">Add Skill</button>
-            <button type="submit" class="btn btn-primary" id="submit-skills">See Predictions</button>
+            <button type="submit" class="btn btn-primary" id="submit-skills">See Predictions and Save your Profile Here.</button>
         </form>
         
     </div>
@@ -54,8 +57,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             const addSkillBtn = document.getElementById('add-skill');
             const skillsContainer = document.getElementById('skills-container');
-            const enteredSkillsList = document.getElementById('entered-skills-list');
-            let skillCounter = 2; // Start from 2 to match the initial ID
+            let skillCounter = 1; // Start from 1 for the initial ID
             
             // Event listener for "Add Skill" button
             addSkillBtn.addEventListener('click', function () {
@@ -63,13 +65,21 @@
                 skillInputContainer.classList.add('skill-input-container');
                 skillInputContainer.innerHTML = `
                     <label for="skill_name_${skillCounter}">Skill Name:</label>
-                    <input type="text" name="skill_name_${skillCounter}" class="skill-name" id="skill_name_${skillCounter}" required>
+                    
+                    <select name="skill_name_${skillCounter}" class="skill-name" id="skill_name_${skillCounter}" required>
+                        <option value="">Select Skill</option>
+                        {% for skill in skills %}
+                        <option value="{{ skill }}">{{ skill }}</option>
+                        {% endfor %}
+                    </select>
+
                     <label for="proficiency_level_${skillCounter}">Proficiency Level:</label>
                     <select name="proficiency_level_${skillCounter}" class="proficiency-level" id="proficiency_level_${skillCounter}" required>
                         <option value="beginner">Beginner</option>
                         <option value="intermediate">Intermediate</option>
                         <option value="advanced">Advanced</option>
                     </select>
+
                     <button type="button" class="btn btn-danger remove-skill">-</button>
                 `;
                 skillsContainer.appendChild(skillInputContainer);
