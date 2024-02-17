@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% block title %}Home | SkillMeld{% endblock %}
+
+{% block css %}
+    <!-- Custom CSS for the About page -->
+    <style>
+        /* Add your custom CSS styles here */
+        .skill-input-container {
+            margin-bottom: 10px;
+        }
+        .entered-skills {
+            margin-top: 20px;
+        }
+        .entered-skill-item {
+            margin-bottom: 5px;
+        }
+        .entered-skill-item button {
+            margin-right: 5px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <!-- Content for the About page -->
+    <div class="container">
+        <h1>Enter Your Skills</h1>
+        <form id="skills-form" method="GET">
+            <div id="skills-container">
+                <div class="skill-input-container">
+                    <label for="skill_name">Skill Name:</label>
+                    <input type="text" name="skill_name" class="skill-name" required>
+                    <label for="proficiency_level">Proficiency Level:</label>
+                    <select name="proficiency_level" class="proficiency-level" required>
+                        <option value="beginner">Beginner</option>
+                        <option value="intermediate">Intermediate</option>
+                        <option value="advanced">Advanced</option>
+                    </select>
+                    <button type="button" class="btn btn-danger remove-skill">-</button>
+                </div>
+            </div>
+            <button type="button" class="btn btn-success" id="add-skill">Add Skill</button>
+            <button type="submit" class="btn btn-primary" id="submit-skills">See Predictions</button>
+        </form>
+        
+    </div>
+{% endblock %}
+
+{% block js %}
+    <!-- Custom JS for the About page -->
+    <script>
+        // Add your custom JavaScript code here
+        document.addEventListener('DOMContentLoaded', function () {
+            const addSkillBtn = document.getElementById('add-skill');
+            const skillsContainer = document.getElementById('skills-container');
+            const enteredSkillsList = document.getElementById('entered-skills-list');
+            
+            // Load previously entered skills from session storage
+            const savedSkills = JSON.parse(sessionStorage.getItem('enteredSkills')) || [];
+            savedSkills.forEach(skill => {
+                const li = document.createElement('li');
+                li.textContent = skill.name + ' - ' + skill.level;
+                enteredSkillsList.appendChild(li);
+            });
+            
+            addSkillBtn.addEventListener('click', function () {
+                const skillInputContainer = document.createElement('div');
+                skillInputContainer.classList.add('skill-input-container');
+                skillInputContainer.innerHTML = `
+                    <label for="skill_name">Skill Name:</label>
+                    <input type="text" name="skill_name" class="skill-name" required>
+                    <label for="proficiency_level">Proficiency Level:</label>
+                    <select name="proficiency_level" class="proficiency-level" required>
+                        <option value="beginner">Beginner</option>
+                        <option value="intermediate">Intermediate</option>
+                        <option value="advanced">Advanced</option>
+                    </select>
+                    <button type="button" class="btn btn-danger remove-skill">-</button>
+                `;
+                skillsContainer.appendChild(skillInputContainer);
+            });
+            
+            skillsContainer.addEventListener('click', function (e) {
+                if (e.target && e.target.classList.contains('remove-skill')) {
+                    e.target.parentElement.remove();
+                }
+            });
+            
+            // Store entered skills in session storage
+            document.getElementById('skills-form').addEventListener('submit', function (e) {
+                e.preventDefault();
+                const enteredSkills = [];
+                const skillInputs = document.querySelectorAll('.skill-name');
+                const proficiencyLevels = document.querySelectorAll('.proficiency-level');
+                skillInputs.forEach((input, index) => {
+                    enteredSkills.push({
+                        name: input.value,
+                        level: proficiencyLevels[index].value
+                    });
+                });
+                sessionStorage.setItem('enteredSkills', JSON.stringify(enteredSkills));
+                enteredSkillsList.innerHTML = ''; // Clear previous list
+                enteredSkills.forEach(skill => {
+                    const li = document.createElement('li');
+                    li.textContent = skill.name + ' - ' + skill.level;
+                    enteredSkillsList.appendChild(li);
+                });
+            });
+        });
+    </script>
+{% endblock %}
