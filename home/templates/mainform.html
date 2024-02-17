@@ -25,13 +25,14 @@
     <!-- Content for the About page -->
     <div class="container">
         <h1>Enter Your Skills</h1>
-        <form id="skills-form" method="GET">
+        <form id="skills-form" method="post" action="/fillForm/">
+            {% csrf_token %}
             <div id="skills-container">
                 <div class="skill-input-container">
-                    <label for="skill_name">Skill Name:</label>
-                    <input type="text" name="skill_name" class="skill-name" required>
-                    <label for="proficiency_level">Proficiency Level:</label>
-                    <select name="proficiency_level" class="proficiency-level" required>
+                    <label for="skill_name_1">Skill Name:</label>
+                    <input type="text" name="skill_name_1" class="skill-name" id="skill_name_1" required>
+                    <label for="proficiency_level_1">Proficiency Level:</label>
+                    <select name="proficiency_level_1" class="proficiency-level" id="proficiency_level_1" required>
                         <option value="beginner">Beginner</option>
                         <option value="intermediate">Intermediate</option>
                         <option value="advanced">Advanced</option>
@@ -54,23 +55,17 @@
             const addSkillBtn = document.getElementById('add-skill');
             const skillsContainer = document.getElementById('skills-container');
             const enteredSkillsList = document.getElementById('entered-skills-list');
+            let skillCounter = 2; // Start from 2 to match the initial ID
             
-            // Load previously entered skills from session storage
-            const savedSkills = JSON.parse(sessionStorage.getItem('enteredSkills')) || [];
-            savedSkills.forEach(skill => {
-                const li = document.createElement('li');
-                li.textContent = skill.name + ' - ' + skill.level;
-                enteredSkillsList.appendChild(li);
-            });
-            
+            // Event listener for "Add Skill" button
             addSkillBtn.addEventListener('click', function () {
                 const skillInputContainer = document.createElement('div');
                 skillInputContainer.classList.add('skill-input-container');
                 skillInputContainer.innerHTML = `
-                    <label for="skill_name">Skill Name:</label>
-                    <input type="text" name="skill_name" class="skill-name" required>
-                    <label for="proficiency_level">Proficiency Level:</label>
-                    <select name="proficiency_level" class="proficiency-level" required>
+                    <label for="skill_name_${skillCounter}">Skill Name:</label>
+                    <input type="text" name="skill_name_${skillCounter}" class="skill-name" id="skill_name_${skillCounter}" required>
+                    <label for="proficiency_level_${skillCounter}">Proficiency Level:</label>
+                    <select name="proficiency_level_${skillCounter}" class="proficiency-level" id="proficiency_level_${skillCounter}" required>
                         <option value="beginner">Beginner</option>
                         <option value="intermediate">Intermediate</option>
                         <option value="advanced">Advanced</option>
@@ -78,33 +73,14 @@
                     <button type="button" class="btn btn-danger remove-skill">-</button>
                 `;
                 skillsContainer.appendChild(skillInputContainer);
+                skillCounter++; // Increment the counter for the next ID
             });
             
+            // Event listener for "Remove Skill" button
             skillsContainer.addEventListener('click', function (e) {
                 if (e.target && e.target.classList.contains('remove-skill')) {
                     e.target.parentElement.remove();
                 }
-            });
-            
-            // Store entered skills in session storage
-            document.getElementById('skills-form').addEventListener('submit', function (e) {
-                e.preventDefault();
-                const enteredSkills = [];
-                const skillInputs = document.querySelectorAll('.skill-name');
-                const proficiencyLevels = document.querySelectorAll('.proficiency-level');
-                skillInputs.forEach((input, index) => {
-                    enteredSkills.push({
-                        name: input.value,
-                        level: proficiencyLevels[index].value
-                    });
-                });
-                sessionStorage.setItem('enteredSkills', JSON.stringify(enteredSkills));
-                enteredSkillsList.innerHTML = ''; // Clear previous list
-                enteredSkills.forEach(skill => {
-                    const li = document.createElement('li');
-                    li.textContent = skill.name + ' - ' + skill.level;
-                    enteredSkillsList.appendChild(li);
-                });
             });
         });
     </script>
