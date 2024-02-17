@@ -13,8 +13,23 @@ def fillForm(request):
         # Handle the form submission
         user_skills = []
 
-        # Define the skill keys
-        skill_keys = [
+        # Retrieve data from the form
+        job_role = request.POST.get('job_role')
+
+        # List to store skill levels
+        skill_levels = []
+
+        # Iterate over submitted skill inputs
+        for key, value in request.POST.items():
+            if key.startswith('skill_name_'):
+                skill_name = value
+                # Extract skill level from the corresponding proficiency level field
+                proficiency_level = request.POST.get('proficiency_level_' + key.split('_')[-1])
+                user_skills.append({'name': skill_name, 'level': proficiency_level})
+
+        # Process the user_skills data as needed
+        # For now, just print it
+        skills = [
             "Android", "Angular", "AWS", "Azure", "Blockchain", "Bootstrap", "C#", "C++", "Confluence", "CSS",
             "CSS3", "Data Science", "DigitalOcean", "Django", "Docker", "Ethereum", "Git", "Google Cloud Platform",
             "GraphQL", "Heroku", "HTML", "HTML5", "iOS", "Java", "JavaScript", "Jira", "Kubernetes", "LESS",
@@ -23,34 +38,46 @@ def fillForm(request):
             "Vue.js"
         ]
 
-        # Iterate over skill keys to extract skill names and proficiency levels
-        for skill_name in skill_keys:
-            proficiency_level = request.POST.get(f"{skill_name}", '0')
-            # Convert proficiency level to dataset format (1 for beginner, 2 for intermediate, 3 for advanced)
-            proficiency_level_value = '0' if proficiency_level == '0' else '-' + proficiency_level
-            user_skills.append(proficiency_level_value)
+        # Check skills against user_skills
+        for skill in skills:
+            skill_found = False
+            for skill_dict in user_skills:
+                if skill_dict['name'] == skill:
+                    skill_found = True
+                    if 'beginner' in skill_dict['level'].lower():
+                        skill_levels.append(1)
+                    elif skill_dict['level'] == 'intermediate':
+                        skill_levels.append(2)
+                    elif skill_dict['level'] == 'advanced':
+                        skill_levels.append(3)
+                    break
+            if not skill_found:
+                skill_levels.append(0)
 
-        # Append job role (Assuming job role is always sent in the form data)
-        job_role = request.POST.get('job_role', '')
-        user_skills.append(job_role)
+        # Append jobpost at the end
+        skill_levels.append(job_role)
 
-        # Print the user skills list
-        print("User Skills:", user_skills)
-        print("Number of skills:", len(user_skills))
+        # Print the skill levels
 
-        # You can now use this list for further processing, such as applying k-means clustering
-        messages.success(request, "Submitted Successfully")
+        # You might want to save user_skills to the database or perform some other actions here
+
+        # Return an HttpResponse or redirect to another page
+        messages.success(request, "data submitted successfully")
         return render(request, 'mainform.html')
+
     else:
-        skills = [  # List of available skills
-            "Python", "Java", "JavaScript", "HTML", "CSS", "SQL", "React", "Angular", "Node.js", "MongoDB", "Git",
-            "C#", "C++", "PHP", "AWS", "Docker", "Kubernetes", "Spring Framework", "TensorFlow", "PyTorch",
-            "Machine Learning", "Data Science", "R", "Ruby", "Swift", "Android", "iOS", "Unity", "Blockchain",
-            "Ethereum", "Solidity", "Vue.js", "TypeScript", "HTML5", "CSS3", "Bootstrap", "Sass", "LESS",
-            "RESTful API", "GraphQL", "Jira", "Confluence", "Azure", "Google Cloud Platform", "Heroku",
-            "DigitalOcean", "Django", "MERN Stack"
+        # If the request method is GET, render the form with skill options
+        skills = [
+            "Android", "Angular", "AWS", "Azure", "Blockchain", "Bootstrap", "C#", "C++", "Confluence", "CSS",
+            "CSS3", "Data Science", "DigitalOcean", "Django", "Docker", "Ethereum", "Git", "Google Cloud Platform",
+            "GraphQL", "Heroku", "HTML", "HTML5", "iOS", "Java", "JavaScript", "Jira", "Kubernetes", "LESS",
+            "Machine Learning", "MERN Stack", "MongoDB", "Node.js", "PHP", "Python", "PyTorch", "React", "RESTful API",
+            "Ruby", "R", "Sass", "Solidity", "Spring Framework", "SQL", "Swift", "TensorFlow", "TypeScript", "Unity",
+            "Vue.js"
         ]
-        return render(request, 'mainform.html', {'skills': skills})  # Pass skills to the template
+        return render(request, 'mainform.html', {'skills': skills})
+
+
 
 def signup(request):
     if request.method == "POST":
