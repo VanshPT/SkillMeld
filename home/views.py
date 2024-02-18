@@ -206,4 +206,3 @@ def logout(request):
     auth_logout(request)  # Use renamed logout function
     messages.success(request, "Successfully Logged Out!")
     return redirect("/")
-

@@ -15,3 +15,20 @@
   font-style: normal;
   font-size: 2rem;
 }
+
+body{
+  background-color: #D9AFD9;
+background-image: linear-gradient(0deg, #D9AFD9 0%, #97D9E1 100%);
+background-repeat: no-repeat;
+font-weight: bold;
+}
+.custom-margg{
+  margin: 0 0.6rem!important;
+}
+
+
+.footclass a{
+color:black ;
+bottom:0;
+margin-top: 13rem;
+}

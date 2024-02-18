@@ -11,7 +11,7 @@
         <div class="col-md-6 mb-4">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">{{ course.Name }}</h5>
+                    <h5 class="card-title">Course-{{ forloop.counter }}</h5> <!-- Modify this line -->
                     <a href="{{ course.BuyLink }}" class="btn btn-primary">Buy Now</a>
                 </div>
             </div>

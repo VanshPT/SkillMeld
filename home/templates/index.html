@@ -9,6 +9,14 @@
             margin: 2rem;
             padding: 2rem;
         }
+        #moto-thing{
+            font-size: 1.5rem;
+            font-family: Arial, sans-serif;
+        font-size: 20px;
+        padding: 10px;
+        width: 100%;
+        height: 50px;
+        }
     </style>
 {% endblock %}
 
@@ -18,7 +26,7 @@
         <h1 class="display-4">About SkillMeld</h1>
         <p class="lead">SkillMeld is a platform designed to help users assess their professional skills and background, and provide tailored suggestions for skill enhancement, career progression, and job prospects.</p>
         <hr class="my-4">
-        <p>Our mission is to guide users towards optimal career paths and opportunities based on their individual strengths, interests, and the current state of the job market.</p>
+        <p id="moto-thing"></p>
         <a class="btn btn-warning btn-lg" href="#" role="button">Learn more</a>
     </div>
 {% endblock %}
@@ -26,6 +34,19 @@
 {% block js %}
     <!-- Custom JS for the About page -->
     <script>
-        // Add your custom JavaScript code here
+        function typingEffect(text, containerId, speed) {
+    let container = document.getElementById(containerId);
+    let index = 0;
+    let intervalId = setInterval(function() {
+        container.textContent += text[index];
+        index++;
+        if (index === text.length) {
+            clearInterval(intervalId);
+        }
+    }, speed);
+}
+
+// Call the typingEffect function with the desired parameters
+typingEffect("Our mission is to guide users towards optimal career paths and opportunities based on their individual strengths, interests, and the current state of the job market.", "moto-thing", 30); // "Hello, world!" is the text to type, "typing-container" is the id of the container, and 100 is the speed in milliseconds
     </script>
 {% endblock %}
