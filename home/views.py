@@ -7,6 +7,7 @@ import requests
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
+from .models import Skill,JobRole
 
 def index(request):
     return render(request, 'index.html')
@@ -34,51 +35,17 @@ def fillForm(request):
         # Process the user_skills data as needed
         # For now, just print it
 
-        # List of available skills and job roles
-        skills = [
-            "Android", "Angular", "AWS", "Azure", "Blockchain", "Bootstrap", "C#", "C++", "Confluence", "CSS",
-            "CSS3", "Data Science", "DigitalOcean", "Django", "Docker", "Ethereum", "Git", "Google Cloud Platform",
-            "GraphQL", "Heroku", "HTML", "HTML5", "iOS", "Java", "JavaScript", "Jira", "Kubernetes", "LESS",
-            "Machine Learning", "MERN Stack", "MongoDB", "Node.js", "PHP", "Python", "PyTorch", "React", "RESTful API",
-            "Ruby", "R", "Sass", "Solidity", "Spring Framework", "SQL", "Swift", "TensorFlow", "TypeScript", "Unity",
-            "Vue.js"
-        ]
-        job_roles = [
-            'Backend Engineer', 'Technical Support Engineer', 'QA Automation Engineer', 
-            'IT Support Specialist', 'Data Modeler', 'Network Administrator', 
-            'UI Architect', 'Data Scientist', 'UI Developer', 'DevOps Engineer', 
-            'AI Engineer', 'Product Manager', 'ETL Developer', 'Solutions Architect', 
-            'Frontend Development Lead', 'Project Manager', 'Software Engineer', 
-            'Backend Development Manager', 'DevOps Lead', 'Release Manager', 
-            'Cloud Solutions Architect', 'Product Owner', 'UX Architect', 
-            'Backend Development Lead', 'System Administrator', 'Software Developer', 
-            'Cybersecurity Analyst', 'Database Administrator', 'Cybersecurity Engineer', 
-            'Network Engineer', 'Frontend Developer', 'UX Designer', 
-            'Product Development Manager', 'Quality Assurance Engineer', 
-            'Embedded Systems Engineer', 'Backend Architect', 'Backend Developer', 
-            'Django Developer', 'Computer Vision Engineer', 'Data Science Manager', 
-            'Cybersecurity Lead', 'UI/UX Designer', 'Data Analyst', 'UX Lead', 
-            'Business Analyst', 'Chief Technology Officer (CTO)', 'Cybersecurity Manager', 
-            'QA Lead', 'Big Data Engineer', 'Data Engineer', 'Frontend Development Manager', 
-            'Game Developer', 'Blockchain Developer', 'Software Development Manager', 
-            'MERN Developer', 'Engineering Director', 'Cloud Engineer', 
-            'AI Product Manager', 'Data Warehouse Architect', 'Frontend Engineer', 
-            'Cloud Security Engineer', 'Web Developer', 'iOS Developer', 
-            'UI Development Lead', 'Machine Learning Engineer', 'Android Developer', 
-            'Full Stack Developer', 'Technical Writer', 'QA Manager', 'Platform Engineer', 
-            'Frontend Architect', 'Data Product Manager', 'Embedded Software Engineer', 
-            'SRE (Site Reliability Engineer)', 'Data Engineering Manager', 
-            'AI Engineering Manager', 'Enterprise Architect', 'Network Security Engineer', 
-            'Data Engineering Lead', 'Data Architect', 'IT Manager', 
-            'Software Development Director', 'Machine Learning Lead', 'Software Architect', 
-            'Automation Engineer', 'Cloud Architect'
-        ]       
+        # Retrieve skills from the database and sort them alphabetically
+        skills = Skill.objects.all().order_by('name')
+
+        # Retrieve job roles from the database and sort them alphabetically
+        job_roles = JobRole.objects.all().order_by('name')
 
         # Check skills against user_skills
         for skill in skills:
             skill_found = False
             for skill_dict in user_skills:
-                if skill_dict['name'] == skill:
+                if skill_dict['name'] == skill.name:
                     skill_found = True
                     if 'beginner' in skill_dict['level'].lower():
                         skill_levels.append(1)
@@ -113,51 +80,14 @@ def fillForm(request):
         skill_differences = nearest_centroid - skill_levels
 
         # Get the skills with positive differences
-        positive_difference_skills = [skill for skill, difference in zip(skills, skill_differences) if difference > 0]
+        positive_difference_skills = [skill.name for skill, difference in zip(skills, skill_differences) if difference > 0]
 
         return render(request, 'mainform.html', {'skills': skills, 'job_roles': job_roles, 'positive_difference_skills': positive_difference_skills})
 
     else:
         # If the request method is GET, render the form with skill options
-        skills = [
-            "Android", "Angular", "AWS", "Azure", "Blockchain", "Bootstrap", "C#", "C++", "Confluence", "CSS",
-            "CSS3", "Data Science", "DigitalOcean", "Django", "Docker", "Ethereum", "Git", "Google Cloud Platform",
-            "GraphQL", "Heroku", "HTML", "HTML5", "iOS", "Java", "JavaScript", "Jira", "Kubernetes", "LESS",
-            "Machine Learning", "MERN Stack", "MongoDB", "Node.js", "PHP", "Python", "PyTorch", "React", "RESTful API",
-            "Ruby", "R", "Sass", "Solidity", "Spring Framework", "SQL", "Swift", "TensorFlow", "TypeScript", "Unity",
-            "Vue.js"
-        ]
-
-        job_roles = [
-            'Backend Engineer', 'Technical Support Engineer', 'QA Automation Engineer', 
-            'IT Support Specialist', 'Data Modeler', 'Network Administrator', 
-            'UI Architect', 'Data Scientist', 'UI Developer', 'DevOps Engineer', 
-            'AI Engineer', 'Product Manager', 'ETL Developer', 'Solutions Architect', 
-            'Frontend Development Lead', 'Project Manager', 'Software Engineer', 
-            'Backend Development Manager', 'DevOps Lead', 'Release Manager', 
-            'Cloud Solutions Architect', 'Product Owner', 'UX Architect', 
-            'Backend Development Lead', 'System Administrator', 'Software Developer', 
-            'Cybersecurity Analyst', 'Database Administrator', 'Cybersecurity Engineer', 
-            'Network Engineer', 'Frontend Developer', 'UX Designer', 
-            'Product Development Manager', 'Quality Assurance Engineer', 
-            'Embedded Systems Engineer', 'Backend Architect', 'Backend Developer', 
-            'Django Developer', 'Computer Vision Engineer', 'Data Science Manager', 
-            'Cybersecurity Lead', 'UI/UX Designer', 'Data Analyst', 'UX Lead', 
-            'Business Analyst', 'Chief Technology Officer (CTO)', 'Cybersecurity Manager', 
-            'QA Lead', 'Big Data Engineer', 'Data Engineer', 'Frontend Development Manager', 
-            'Game Developer', 'Blockchain Developer', 'Software Development Manager', 
-            'MERN Developer', 'Engineering Director', 'Cloud Engineer', 
-            'AI Product Manager', 'Data Warehouse Architect', 'Frontend Engineer', 
-            'Cloud Security Engineer', 'Web Developer', 'iOS Developer', 
-            'UI Development Lead', 'Machine Learning Engineer', 'Android Developer', 
-            'Full Stack Developer', 'Technical Writer', 'QA Manager', 'Platform Engineer', 
-            'Frontend Architect', 'Data Product Manager', 'Embedded Software Engineer', 
-            'SRE (Site Reliability Engineer)', 'Data Engineering Manager', 
-            'AI Engineering Manager', 'Enterprise Architect', 'Network Security Engineer', 
-            'Data Engineering Lead', 'Data Architect', 'IT Manager', 
-            'Software Development Director', 'Machine Learning Lead', 'Software Architect', 
-            'Automation Engineer', 'Cloud Architect'
-        ]       
+        skills = Skill.objects.all().order_by('name')
+        job_roles = JobRole.objects.all().order_by('name')
 
         return render(request, 'mainform.html', {'skills': skills, 'job_roles': job_roles})
 
