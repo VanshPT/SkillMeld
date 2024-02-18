@@ -1,4 +1,3 @@
-<!-- mainform.html -->
 {% extends 'base.html' %}
 
 {% block title %}Home | SkillMeld{% endblock %}
@@ -19,6 +18,11 @@
         .entered-skill-item button {
             margin-right: 5px;
         }
+        .marg-x{
+            border-radius: 10px;
+            padding: 1rem;
+            border: 2px solid black;
+        }
     </style>
 {% endblock %}
 
@@ -35,11 +39,10 @@
             <div class="form-group">
                 <label for="job_role">Job Role:</label>
                 <select name="job_role" id="job_role" class="form-control" required>
-                    <option value="">Select Job Role</option>
-                    <option value="Web Developer">Web Developer</option>
-                    <option value="Software Engineer">Software Engineer</option>
-                    <option value="Full Stack Developer">Full Stack Developer</option>
-                    <!-- Add more job roles here -->
+
+                    {% for job in job_roles %}
+                    <option value="{{ job }}">{{ job }}</option>
+                    {% endfor %}
                 </select>
             </div>
             
@@ -48,6 +51,24 @@
         </form>
         
     </div>
+
+    {% if positive_difference_skills %}
+    <h3>Skills where you might need Improvement to Land your First Job!!:</h3>
+    <ul>
+        {% for skill in positive_difference_skills %}
+            <li>{{ skill }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% if courses %}
+    <div class="container marg-x">
+        {% for course in courses %}
+        <div>
+            {{ course }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
 {% endblock %}
 
 {% block js %}
