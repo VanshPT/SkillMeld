@@ -33,10 +33,19 @@
         }
         .btnclass{
             margin-top: 2rem;
+            background-color: blue;
         }
         #mainhead{
             margin-top: 2rem;
         }
+        .btn-seerec{
+            color: black;
+            background-color: #ffc107;
+            margin-left: 2rem;
+            margin-bottom: 5rem;
+            margin-top: 5rem;
+        }
+
     </style>
 {% endblock %}
 
@@ -73,16 +82,9 @@
             <li class="main-li">{{ skill }}</li>
         {% endfor %}
     </ul>
-    {% endif %}
-    {% if courses %}
-    <div class="container marg-x">
-        {% for course in courses %}
-        <div>
-            {{ course }}
-        </div>
-        {% endfor %}
-    </div>
-    {% endif %}
+    <a href="/seeRec/" class="btn btn-seerec">See Recommendations</a>
+{% endif %}
+
 {% endblock %}
 
 {% block js %}
@@ -107,14 +109,14 @@
                         <option value="{{ skill }}">{{ skill }}</option>
                         {% endfor %}
                     </select>
-
+    
                     <label for="proficiency_level_${skillCounter}">Proficiency Level:</label>
                     <select name="proficiency_level_${skillCounter}" class="proficiency-level" id="proficiency_level_${skillCounter}" required>
                         <option value="beginner">Beginner</option>
                         <option value="intermediate">Intermediate</option>
                         <option value="advanced">Advanced</option>
                     </select>
-
+    
                     <button type="button" class="btn btn-danger remove-skill">-</button>
                 `;
                 skillsContainer.appendChild(skillInputContainer);
@@ -127,6 +129,10 @@
                     e.target.parentElement.remove();
                 }
             });
+    
+            // Get positive difference skills and store them in session storage
+            const positiveDifferenceSkills = Array.from(document.querySelectorAll('.main-li')).map(li => li.textContent.trim());
+            sessionStorage.setItem('positive_difference_skills', JSON.stringify(positiveDifferenceSkills));
         });
     </script>
 {% endblock %}

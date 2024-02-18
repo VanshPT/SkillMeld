@@ -8,6 +8,7 @@ import pandas as pd
 from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
 from .models import Skill,JobRole
+from bs4 import BeautifulSoup
 
 def index(request):
     return render(request, 'index.html')
@@ -81,6 +82,7 @@ def fillForm(request):
 
         # Get the skills with positive differences
         positive_difference_skills = [skill.name for skill, difference in zip(skills, skill_differences) if difference > 0]
+        request.session['positive_difference_skills'] = positive_difference_skills
 
         return render(request, 'mainform.html', {'skills': skills, 'job_roles': job_roles, 'positive_difference_skills': positive_difference_skills})
 
@@ -90,6 +92,67 @@ def fillForm(request):
         job_roles = JobRole.objects.all().order_by('name')
 
         return render(request, 'mainform.html', {'skills': skills, 'job_roles': job_roles})
+    
+
+
+def scrape_course_info(url):
+    # Send a GET request to the URL
+    response = requests.get(url)
+    
+    # Check if the request was successful
+    if response.status_code == 200:
+        # Parse the HTML content of the page
+        soup = BeautifulSoup(response.content, 'html.parser')
+        
+        # Extract course name
+        course_name_element = soup.find('h3', class_='ud-heading-md course-card-title-module--course-title--3k0w_')
+        course_name = course_name_element.text.strip() if course_name_element else "N/A"
+        
+        # Extract buy link
+        buy_link = url
+        
+        # Extract price
+        price_element = soup.find('div', class_='base-price-text-module--price-part--3AFBv')
+        price = price_element.text.strip() if price_element else "N/A"
+
+        # Print course name, buy link, and price for debugging
+        print("Course Name:", course_name)
+        print("Buy Link:", buy_link)
+        print("Price:", price)
+        
+        return {
+            'Name': course_name,
+            'BuyLink': buy_link,
+            'Price': price
+        }
+    else:
+        print("Failed to retrieve page:", response.status_code)
+        return None
+
+def seeRec(request):
+    # Retrieve positive difference skills (topic list) from session storage
+    topics = request.session.get('positive_difference_skills', [])
+
+    # Clear the session variable to avoid retaining the data after use
+    request.session.pop('positive_difference_skills', None)
+
+    # List to store course information
+    courses = []
+
+    # Loop through each topic and generate corresponding Udemy search URLs
+    for topic in topics:
+        search_url = f"https://www.udemy.com/courses/search/?q={topic.replace(' ', '+')}"
+        course_info = scrape_course_info(search_url)
+        if course_info:
+            courses.append(course_info)
+    print(courses)
+    # Render the seeRec template with the positive difference skills and recommended courses
+    return render(request, 'getrec.html', {'positive_difference_skills': topics, 'courses': courses })
+
+
+
+
+
 
 def signup(request):
     if request.method == "POST":

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}See Personalized Recommendations | SkillMeld{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>See Personalized Recommendations</h1>
+    <h2>Recommended Courses:</h2>
+    <div class="row">
+        {% for course in courses %}
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ course.Name }}</h5>
+                    <a href="{{ course.BuyLink }}" class="btn btn-primary">Buy Now</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
