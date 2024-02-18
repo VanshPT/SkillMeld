@@ -18,10 +18,24 @@
         .entered-skill-item button {
             margin-right: 5px;
         }
-        .marg-x{
-            border-radius: 10px;
-            padding: 1rem;
-            border: 2px solid black;
+        #main-rec{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin-top:1rem;
+        }
+        .main-li{
+                font-size: 1.4rem;
+                font-weight: bold;
+                color:rgb(72, 72, 156);
+                padding:0.5rem;
+                border-radius: 5px;
+        }
+        .btnclass{
+            margin-top: 2rem;
+        }
+        #mainhead{
+            margin-top: 2rem;
         }
     </style>
 {% endblock %}
@@ -29,7 +43,7 @@
 {% block content %}
     <!-- Content for the About page -->
     <div class="container">
-        <h1>Enter Your Skills</h1>
+        <h1 id="mainhead">Enter Your Skills</h1>
         <form id="skills-form" method="post" action="/fillForm/">
             {% csrf_token %}
             <div id="skills-container">
@@ -46,17 +60,17 @@
                 </select>
             </div>
             
-            <button type="button" class="btn btn-success" id="add-skill">Add Skill</button>
-            <button type="submit" class="btn btn-primary" id="submit-skills">See Predictions and Save your Profile Here.</button>
+            <button type="button" class="btn btn-success btnclass" id="add-skill">Add Skill</button>
+            <button type="submit" class="btn btn-primary btnclass" id="submit-skills">See Predictions and Save your Profile Here.</button>
         </form>
         
     </div>
 
     {% if positive_difference_skills %}
     <h3>Skills where you might need Improvement to Land your First Job!!:</h3>
-    <ul>
+    <ul id="main-rec">
         {% for skill in positive_difference_skills %}
-            <li>{{ skill }}</li>
+            <li class="main-li">{{ skill }}</li>
         {% endfor %}
     </ul>
     {% endif %}
