@@ -49,7 +49,7 @@
                 </button>
                 {% else %}
                 <button type="button" class="btn btn-outline-warning custom-margg" data-bs-toggle="modal" data-bs-target="#signupModal">
-                    Signup
+                    SignUp
                 </button>
                 <button type="button" class="btn btn-outline-warning custom-margg" data-bs-toggle="modal" data-bs-target="#loginModal">
                     Login
@@ -64,7 +64,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="signupModalLabel">Signup</h1>
+                    <h1 class="modal-title fs-5" id="signupModalLabel">SignUp</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -147,6 +147,7 @@
             </div>
         </div>
     </div>
+    
 
     {% for message in messages %}
         <div class="alert alert-{{ message.tags }} alert-dismissible fade show mb-0" role="alert">
@@ -167,6 +168,7 @@
             // Add your custom JavaScript code here
         </script>
     {% endblock %}
+    
    
 </body>
 </html>

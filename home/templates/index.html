@@ -3,50 +3,203 @@
 {% block title %}Home | SkillMeld{% endblock %}
 
 {% block css %}
-    <!-- Custom CSS for the About page -->
-    <style>
-        .mainpadd{
-            margin: 2rem;
-            padding: 2rem;
-        }
-        #moto-thing{
-            font-size: 1.5rem;
-            font-family: Arial, sans-serif;
+<!-- Custom CSS for the About page -->
+<style>
+    .mainpadd {
+        margin: 2rem;
+        padding: 2rem;
+    }
+
+    #moto-thing {
+        font-size: 1.5rem;
+        font-family: Arial, sans-serif;
         font-size: 20px;
         padding: 10px;
         width: 100%;
         height: 50px;
-        }
-    </style>
+    }
+</style>
 {% endblock %}
 
 {% block content %}
-    <!-- Content for the About page -->
-    <div class="jumbotron mainpadd">
-        <h1 class="display-4">About SkillMeld</h1>
-        <p class="lead">SkillMeld is a platform designed to help users assess their professional skills and background, and provide tailored suggestions for skill enhancement, career progression, and job prospects.</p>
-        <hr class="my-4">
-        <p id="moto-thing"></p>
-        <a class="btn btn-warning btn-lg" href="#" role="button">Learn more</a>
+<!-- Content for the About page -->
+
+<!--Carousel-->
+<div id="carouselExampleIndicators" class="carousel slide">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
     </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img src="./static/c1.jpg" class="d-block w-100" alt="...">
+        <div class="carousel-caption d-none d-md-block">
+            <h2>Welcome to SkillMeld</h2>
+            
+            <button type="button" class="btn btn-danger">Skill Assessment</button>
+            <button type="button" class="btn btn-warning">Job Opportunities</button>
+            <button type="button" class="btn btn-info">Tailored Suggestions</button>
+          </div>
+      </div>
+      <div class="carousel-item">
+        <img src="./static/c2.jpg" class="d-block w-100" alt="...">
+        <div class="carousel-caption d-none d-md-block">
+            <h2>Elevate Your Career Journey: Real-Time Insights, Real Results!</h2>
+            
+            <button type="button" class="btn btn-danger">Industry Insights</button>
+            <button type="button" class="btn btn-warning">Learning Resources</button>
+            <button type="button" class="btn btn-info">Community Support</button>
+          </div>
+      </div>
+      <div class="carousel-item">
+        <img src="./static/c3.jpg" class="d-block w-100" alt="...">
+        <div class="carousel-caption d-none d-md-block">
+            <h2>Your Career, Your Way: Customized Strategies for Success</h2>
+            
+            <button type="button" class="btn btn-danger">Future Skills Prediction</button>
+            <button type="button" class="btn btn-warning">Industry Networking</button>
+            <button type="button" class="btn btn-info">Salary Insights</button>
+          </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+
+  
+
+<!-- Blog -->
+<div class="container my-4">
+    <div class="row mb-2">
+        <div class="col-md-6">
+            <div
+                class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                <div class="col p-4 d-flex flex-column position-static">
+                    <strong class="d-inline-block mb-2 text-primary">FrontEnd</strong>
+                    <h3 class="mb-0">Learn Bootstrap Templates</h3>
+                    <p class="card-text mb-auto">What Are Bootstrap Templates? Bootstrap templates are pre-designed
+                        website or software frameworks or base layouts that leave minimal space for custom styling. With
+                        templates, minimal custom CSS is mainly used for layout purposes, and few styling or design
+                        decisions are made.Bootstrap templates are scaffolds, blueprints, or base layouts that offer no
+                        custom styling past what is already included with the base Bootstrap framework.</p>
+                    <a href="#" class="stretched-link">Continue reading</a>
+                </div>
+                <div class="col-auto d-none d-lg-block">
+                    <img class="bd-placeholder-img img-fluid" width="200" height="250" src="./static/b1.jpg"
+                        alt="Error loading image!">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div
+                class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                <div class="col p-4 d-flex flex-column position-static">
+                    <strong class="d-inline-block mb-2 text-success">Design</strong>
+                    <h3 class="mb-0">Learn UI/UX Designing</h3>
+                    <p class="mb-auto">The difference between User Interface (UI) and User Experience (UX) is that UI
+                        refers to the aesthetic user elements within a product, while UX is about the more functional
+                        elements a user interacts with in a product or service. UI is all about the visual parts of a
+                        product, like color schemes, navigational elements, button styles. UX on the other hand, focuses
+                        on how a user moves through the product and what guides them. UX is more structural, where UI is
+                        more visual.</p>
+                    <a href="#" class="stretched-link">Continue reading</a>
+                </div>
+                <div class="col-auto d-none d-lg-block">
+                    <img class="bd-placeholder-img img-fluid" width="200" height="250" src="./static/b2.jpg"
+                        alt="Error loading image!">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col-md-6">
+            <div
+                class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                <div class="col p-4 d-flex flex-column position-static">
+                    <strong class="d-inline-block mb-2 text-warning">Python</strong>
+                    <h3 class="mb-0">Learn Python</h3>
+
+                    <p class="card-text mb-auto">Python is an interpreted, object-oriented, high-level programming
+                        language with dynamic semantics. Its high-level built in data structures, combined with dynamic
+                        typing and dynamic binding, make it very attractive for Rapid Application Development, as well
+                        as for use as a scripting or glue language to connect existing components together. Python's
+                        simple, easy to learn syntax emphasizes readability and therefore reduces the cost of program
+                        maintenance. Python supports modules and packages, which encourages program modularity and code
+                        reuse. The Python interpreter and the extensive standard library are available in source or
+                        binary form without charge for all major platforms, and can be freely distributed.</p>
+                    <a href="#" class="stretched-link">Continue reading</a>
+                </div>
+                <div class="col-auto d-none d-lg-block">
+                    <img class="bd-placeholder-img img-fluid" width="200" height="250" src="./static/b3.jpg"
+                        alt="Error loading image!">
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div
+                class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                <div class="col p-4 d-flex flex-column position-static">
+                    <strong class="d-inline-block mb-2 text-success">Databases</strong>
+                    <h3 class="mb-0">Learn Database Connectivity</h3>
+                    <p class="mb-auto">What is used for database connectivity?
+                        Database connectivity can be done using different programming languages such as Java, C++, and
+                        HTML (hypertext markup language). By using these languages, one can connect a program to a
+                        particular database and can query data to access and manipulate them.A database connection is a
+                        facility in computer science that allows client software to talk to database server software,
+                        whether on the same machine or not. A connection is required to send commands and receive
+                        answers, usually in the form of a result set. Connections are a key concept in data-centric
+                        programming.</p>
+                    <a href="#" class="stretched-link">Continue reading</a>
+                </div>
+                <div class="col-auto d-none d-lg-block">
+                    <img class="bd-placeholder-img img-fluid" width="200" height="250" src="./static/b4.jpg"
+                        alt="Error loading image!">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="jumbotron mainpadd">
+    <h1 class="display-4">About SkillMeld</h1>
+    <p style="font-weight: lighter;" class="lead">SkillMeld is a platform designed to help users assess their professional skills and background, and
+        provide tailored suggestions for skill enhancement, career progression, and job prospects.</p>
+    <hr class="my-4">
+    <p id="moto-thing"></p>
+    <a class="btn btn-warning btn-lg" href="#" role="button">Learn more</a>
+</div> 
+
+<!-- footer-->
+<hr size="2px" color="black" noshade>
+<footer class="container">
+    <p class="float-right"><a href="#">Back to top</a></p>
+    <p>© 2024-2025 SkillMeld, Inc. · <a href="#">Privacy</a> · <a href="#">Terms</a></p>
+</footer>
 {% endblock %}
 
-{% block js %}
-    <!-- Custom JS for the About page -->
-    <script>
-        function typingEffect(text, containerId, speed) {
-    let container = document.getElementById(containerId);
-    let index = 0;
-    let intervalId = setInterval(function() {
-        container.textContent += text[index];
-        index++;
-        if (index === text.length) {
-            clearInterval(intervalId);
-        }
-    }, speed);
-}
 
-// Call the typingEffect function with the desired parameters
-typingEffect("Our mission is to guide users towards optimal career paths and opportunities based on their individual strengths, interests, and the current state of the job market.", "moto-thing", 30); // "Hello, world!" is the text to type, "typing-container" is the id of the container, and 100 is the speed in milliseconds
-    </script>
+{% block js %}
+<!-- Custom JS for the About page -->
+<script>
+    function typingEffect(text, containerId, speed) {
+        let container = document.getElementById(containerId);
+        let index = 0;
+        let intervalId = setInterval(function () {
+            container.textContent += text[index];
+            index++;
+            if (index === text.length) {
+                clearInterval(intervalId);
+            }
+        }, speed);
+    }
+
+    // Call the typingEffect function with the desired parameters
+    typingEffect("Our mission is to guide users towards optimal career paths and opportunities based on their individual strengths, interests, and the current state of the job market.", "moto-thing", 30); // "Hello, world!" is the text to type, "typing-container" is the id of the container, and 100 is the speed in milliseconds
+</script>
 {% endblock %}
