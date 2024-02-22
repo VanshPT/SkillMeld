@@ -59,7 +59,7 @@ def fillForm(request):
                 skill_levels.append(0)
 
         # Perform KMeans clustering
-        file_path = r'home\new_file11.csv'
+        file_path = r'home/new_file11.csv'
         df = pd.read_csv(file_path)
         df = df.drop(columns=['Unnamed: 0'])
         filtered_df = df[df['Job_Role'] == job_role].copy()
