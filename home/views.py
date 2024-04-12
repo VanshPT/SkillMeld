@@ -181,7 +181,7 @@ def signup(request):
             myuser.first_name=firstname
             myuser.last_name=lastname
             myuser.save()
-            messages.success(request,'Your Blogme Account has been successfully created')
+            messages.success(request,'Your SkillMeld Account has been successfully created')
             return redirect('/')
     else:
         return render(request, 'index.html')  # Render the same page
